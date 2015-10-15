@@ -47,10 +47,10 @@ public class JwtTokenHandlerTest {
         user.grantRole(UserRole.ANNOT);
 
         String tokenForUser = tokenHandler.createTokenForUser(user);
-        System.out.println("tokenForUser: " + tokenForUser);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
+            // No need to do anything
         }
         try {
             final User parsedUser = tokenHandler.parseUserFromToken(tokenForUser);

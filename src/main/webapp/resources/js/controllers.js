@@ -16,7 +16,7 @@ var app = angular.module('statelessApp', []).factory('TokenStorage', function() 
 		request: function(config) {
 			var authToken = TokenStorage.retrieve();
 			if (authToken) {
-				config.headers['X-AUTH-TOKEN'] = authToken;
+				config.headers['Authorization'] = "Bearer " + authToken;
 			}
 			return config;
 		},
@@ -50,7 +50,7 @@ app.controller('AuthCtrl', function ($scope, $http, TokenStorage) {
 	$scope.login = function () {
 		$http.post('/api/login', { username: $scope.username, password: $scope.password }).success(function (result, status, headers) {
 			$scope.authenticated = true;
-			TokenStorage.store(headers('X-AUTH-TOKEN'));
+			TokenStorage.store(headers('Authorization'));
 			
 			// For display purposes only
 			$scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[1]));
