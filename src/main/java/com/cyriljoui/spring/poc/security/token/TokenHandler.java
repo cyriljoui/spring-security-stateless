@@ -39,6 +39,8 @@ public final class TokenHandler {
 				final byte[] userBytes = fromBase64(parts[0]);
 				final byte[] hash = fromBase64(parts[1]);
 
+				//System.out.println("userString: " + new String(userBytes));
+
 				boolean validHash = Arrays.equals(createHmac(userBytes), hash);
 				if (validHash) {
 					final User user = fromJSON(userBytes);

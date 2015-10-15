@@ -7,9 +7,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.cyriljoui.spring.poc.security.token.StatelessTokenAuthenticationFilter;
 import com.cyriljoui.spring.poc.security.token.StatelessUsernamePasswordAuthenticationFilter;
@@ -19,6 +21,8 @@ import com.cyriljoui.spring.poc.security.user.UserDetailsService;
 @EnableWebSecurity
 @Configuration
 @Order(1)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebMvcSecurity
 public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -34,15 +38,15 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+        http
 				.exceptionHandling().and()
 				.anonymous().and()
-				.servletApi().and()
+                .servletApi().and()
 				.headers().cacheControl().and()
 				.authorizeRequests()
 								
 				//allow anonymous resource requests
-				.antMatchers("/").permitAll()
+                .antMatchers("/").permitAll()
 				.antMatchers("/pub/*").permitAll()
 				.antMatchers("/favicon.ico").permitAll()
 				.antMatchers("/resources/**").permitAll()

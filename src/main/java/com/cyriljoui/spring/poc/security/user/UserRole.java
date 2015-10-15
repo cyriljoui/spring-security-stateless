@@ -1,7 +1,7 @@
 package com.cyriljoui.spring.poc.security.user;
 
 public enum UserRole {
-	USER, ADMIN;
+	USER, ADMIN, ANNOT;
 
 	public UserAuthority asAuthorityFor(final User user) {
 		final UserAuthority authority = new UserAuthority();
@@ -16,6 +16,8 @@ public enum UserRole {
 			return USER;
 		case "ROLE_ADMIN":
 			return ADMIN;
+		case "ROLE_ANNOT":
+				return ANNOT;
 		}
 		throw new IllegalArgumentException("No role defined for authority: " + authority.getAuthority());
 	}

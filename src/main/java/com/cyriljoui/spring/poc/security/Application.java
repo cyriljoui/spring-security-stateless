@@ -36,6 +36,7 @@ public class Application {
             public void afterPropertiesSet() {
                 addUser("admin", "admin");
                 addUser("user", "user");
+                addAnnotUser("annot", "annot");
             }
 
             private void addUser(String username, String password) {
@@ -43,6 +44,14 @@ public class Application {
                 user.setUsername(username);
                 user.setPassword(new BCryptPasswordEncoder().encode(password));
                 user.grantRole(username.equals("admin") ? UserRole.ADMIN : UserRole.USER);
+                userRepository.save(user);
+            }
+            private void addAnnotUser(String username, String password) {
+                User user = new User();
+                user.setUsername(username);
+                user.setPassword(new BCryptPasswordEncoder().encode(password));
+                user.grantRole(UserRole.ANNOT);
+                user.grantRole(UserRole.USER);
                 userRepository.save(user);
             }
         };
