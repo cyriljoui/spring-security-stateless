@@ -17,12 +17,8 @@ public class TokenAuthenticationService {
 	private static final String AUTH_HEADER_NAME = "X-AUTH-TOKEN";
 	private static final long TEN_DAYS = 1000 * 60 * 60 * 24 * 10;
 
-	private final TokenHandler tokenHandler;
-
 	@Autowired
-	public TokenAuthenticationService(@Value("${token.secret}") String secret) {
-		tokenHandler = new TokenHandler(DatatypeConverter.parseBase64Binary(secret));
-	}
+	public TokenHandler tokenHandler;
 
 	public void addAuthentication(HttpServletResponse response, UserAuthentication authentication) {
 		final User user = authentication.getDetails();

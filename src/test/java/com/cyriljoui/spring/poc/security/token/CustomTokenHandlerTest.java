@@ -14,15 +14,15 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class TokenHandlerTest {
+public class CustomTokenHandlerTest {
 
-	private TokenHandler tokenHandler;
+	private CustomTokenHandler tokenHandler;
 
 	@Before
 	public void init() {
 		byte[] secret = new byte[70];
 		new SecureRandom().nextBytes(secret);
-		tokenHandler = new TokenHandler(secret);
+		tokenHandler = new CustomTokenHandler(secret);
 	}
 
 	@Test
@@ -39,10 +39,15 @@ public class TokenHandlerTest {
 	@Test
 	public void testCreateToken_SeparatorCharInUsername() {
 		final User user = new User("R.bbert", new Date(new Date().getTime() + 10000));
+		user.grantRole(UserRole.USER);
+		user.grantRole(UserRole.ANNOT);
 
 		final User parsedUser = tokenHandler.parseUserFromToken(tokenHandler.createTokenForUser(user));
 
 		assertEquals(user.getUsername(), parsedUser.getUsername());
+		assertTrue(parsedUser.hasRole(UserRole.USER));
+		assertTrue(parsedUser.hasRole(UserRole.ANNOT));
+		assertFalse(parsedUser.hasRole(UserRole.ADMIN));
 	}
 
 	@Test

@@ -42,7 +42,7 @@ app.controller('AuthCtrl', function ($scope, $http, TokenStorage) {
 				$scope.username = user.username;
 				
 				// For display purposes only
-				$scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
+				$scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[1]));
 			}
 		});
 	};
@@ -53,7 +53,7 @@ app.controller('AuthCtrl', function ($scope, $http, TokenStorage) {
 			TokenStorage.store(headers('X-AUTH-TOKEN'));
 			
 			// For display purposes only
-			$scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
+			$scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[1]));
 		});  
 	};
 
